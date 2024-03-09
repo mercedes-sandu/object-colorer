@@ -7,6 +7,11 @@ MAX_RGB = 255
 ARRAYS_PATH = "arrays/"
 OUTPUTS_PATH = "outputs/"
 
+USE_COLORMAP = True
+COLOR_R = 1.0
+COLOR_G = 1.0
+COLOR_B = 1.0
+
 # to see all possible colormaps, visit: https://matplotlib.org/stable/users/explain/colors/colormaps.html
 COLOR_MAP = "viridis"
 
@@ -16,7 +21,11 @@ COLOR_MAP = "viridis"
 # file_name = "pot.txt"
 # file_name = "bunny.txt"
 # file_name = "sphere.txt"
-file_name = "teapot.txt"
+# file_name = "teapot.txt"
+# file_name = "sphere-new.txt"
+# file_name = "octahedron.txt"
+# file_name = "heptagonal-prism.txt"
+file_name = "icosahedron.txt"
 
 def import_data(file_name):
     arrays = []
@@ -57,6 +66,9 @@ def assign_color_based_on_direction(direction):
     cmap = plt.get_cmap(COLOR_MAP)
     color = cmap(normalized_angle)
     return color
+
+def assign_one_color(r, g, b):
+    return [r, g, b]
 
 def write_data_with_rgb(array, rgb_array):
     with open(OUTPUTS_PATH + "colorized-" + file_name, "w") as file:
@@ -100,6 +112,6 @@ directions = [calculate_direction(vertex, centroid) for vertex in vertices]
 distances = [calculate_distance(vertex, centroid) for vertex in vertices]
 max_distances = max(distances)
 
-colors = [assign_color_based_on_direction(direction) for direction in directions]
+colors = [assign_color_based_on_direction(direction) for direction in directions] if USE_COLORMAP else [assign_one_color(COLOR_R, COLOR_G, COLOR_B) for direction in directions]
 
 write_data_with_rgb(vertices, colors)
